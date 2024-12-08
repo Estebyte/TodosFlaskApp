@@ -14,7 +14,9 @@ def create_app():
     #Initialize the app
     db.init_app(app)
 
-    #imports later on
+    #Import register_routes() IN create_app() to avoid circular imports
+    from routes import register_routes
+    register_routes(app, db)
 
     #Set migrate
     migrate = Migrate(app, db)
