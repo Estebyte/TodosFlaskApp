@@ -9,7 +9,7 @@ def create_app():
     app = Flask(__name__, template_folder="templates")
 
     #Connect to SQLite, as an example
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///./db/test.db" #sqlite:///<path>
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///./test.db" #sqlite:///<path>
 
     #Initialize the app
     db.init_app(app)
