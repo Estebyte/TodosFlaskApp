@@ -5,5 +5,9 @@ def register_routes(app, db):
 
     @app.route("/")
     def index():
+        #Query all in person table
         people = Person.query.all()
-        return str(people)
+        context = {
+            "people" : people
+        }
+        return render_template("index.html", **context)
