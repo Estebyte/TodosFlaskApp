@@ -9,4 +9,14 @@
         <li>{{ person }}</li>
         {% endfor %}
     </ul>
+
+<h2> New Person </h2>
+
+    <form action="{{ url_for('index') }}" method="POST">
+        <input type="text" name="name" required="required"><br>
+        <input type="number" name="age"><br>
+        <input type="text" name="job"><br>
+        <input type="submit" value="Create">
+    </form>
+    
 {% endblock %}
