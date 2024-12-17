@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, redirect, url_for
 from models import Person
 
 def register_routes(app, db):
@@ -32,3 +32,10 @@ def register_routes(app, db):
                 "people" : people
             }
             return render_template("index.html", **context)
+
+    @app.route("/delete/<int:id>")
+    def delete(id):
+        person = Person.query.get_or_404(id)
+        db.session.delete(person)
+        db.session.commit()
+        return redirect(url_for("index"))

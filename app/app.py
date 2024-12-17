@@ -10,6 +10,8 @@ def create_app():
 
     #Connect to SQLite, as an example
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///./test.db" #sqlite:///<path>
+    #Disable track modifications (optional)
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 
     #Initialize the app
     db.init_app(app)
