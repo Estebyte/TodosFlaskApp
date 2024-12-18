@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Details{% endblock %}
+
+{% block content %}
+
+<h1>{{ person.name }}</h1>
+<ul>
+    {% for key, value in values.items()%}
+    <li>{{key}}: {{ value }}</li>
+    {% endfor %}
+</ul>
+
+<a href="{{ url_for('delete', id = person.p_id) }}">Delete user</a>
+{% endblock %}

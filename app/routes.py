@@ -32,8 +32,28 @@ def register_routes(app, db):
                 "people" : people
             }
             return render_template("index.html", **context)
+        
+    
+    @app.route("/details/<int:id>")
+    def details(id):
+        #Get person
+        person = Person.query.get_or_404(id)
 
-    @app.route("/delete/<int:id>")
+        #Get values
+        values = {
+            column.name: getattr(person, column.name) 
+            if getattr(person, column.name) not in ["", None] else "No available"
+            for column in Person.__table__.columns 
+            if not column.primary_key
+            }
+
+        context = {
+            "person" : person,
+            "values" : values
+        }
+        return render_template("details.html", **context)
+        
+    @app.route("/details/delete/<int:id>")
     def delete(id):
         person = Person.query.get_or_404(id)
         db.session.delete(person)

@@ -7,7 +7,7 @@
 <h1>Index Page</h1>
     <ul>
         {% for person in people%}
-        <li>{{ person }} <a href="{{ url_for('delete', id = person.p_id )}}">Delete</a></li>
+        <li>{{ person }} <a href="{{ url_for('details', id = person.p_id )}}">Details</a></li>
         {% endfor %}
     </ul>
 
