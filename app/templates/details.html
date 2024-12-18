@@ -11,5 +11,14 @@
     {% endfor %}
 </ul>
 
+<h2>Update Person</h2>
+    <form action="{{ url_for('details', id = person.p_id) }}" method="POST">
+        <input type="text" name="name" required="required" placeholder="name"><br>
+        <input type="number" name="age" placeholder="age"><br>
+        <input type="text" name="job" placeholder="job"><br>
+        <input type="submit" value="Update"><br>
+    </form>
+
 <a href="{{ url_for('delete', id = person.p_id) }}">Delete person</a>
+
 {% endblock %}

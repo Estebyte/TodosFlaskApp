@@ -34,7 +34,7 @@ def register_routes(app, db):
             return render_template("index.html", **context)
         
     
-    @app.route("/details/<int:id>")
+    @app.route("/details/<int:id>", methods = ["GET", "POST"])
     def details(id):
         #Get person
         person = Person.query.get_or_404(id)
@@ -47,11 +47,35 @@ def register_routes(app, db):
             if not column.primary_key
             }
 
-        context = {
-            "person" : person,
-            "values" : values
-        }
-        return render_template("details.html", **context)
+        if request.method == "GET":
+            context = {
+                "person" : person,
+                "values" : values
+            }
+            return render_template("details.html", **context)
+        
+        #For updating the user
+        elif request.method == "POST":
+            #Get the values from the form
+            name = request.form.get("name")
+            age = int(request.form.get("age"))
+            job = request.form.get("job")
+
+            #Update the values
+            person.name = name
+            person.age = age
+            person.job = job
+
+            #Commit changes in the db
+            db.session.commit()
+
+            # #Return template
+            # context = {
+            #     "person" : person,
+            #     "values" : values
+            # }
+            # return render_template("details.html", **context)
+            return redirect(url_for("details", id = person.p_id))
         
     @app.route("/details/delete/<int:id>")
     def delete(id):
