@@ -4,7 +4,7 @@
 {% block title%}Index{% endblock %}
 
 {% block content%}
-<h1>Index Page</h1>
+<h1>Persons</h1>
     <ul>
         {% for person in people%}
         <li>{{ person }} <a href="{{ url_for('details', id = person.p_id )}}">Details</a></li>
