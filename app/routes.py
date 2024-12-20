@@ -77,7 +77,7 @@ def register_routes(app, db):
             # return render_template("details.html", **context)
             return redirect(url_for("details", id = person.p_id))
         
-    @app.route("/details/delete/<int:id>")
+    @app.route("/delete/<int:id>")
     def delete(id):
         person = Person.query.get_or_404(id)
         db.session.delete(person)
