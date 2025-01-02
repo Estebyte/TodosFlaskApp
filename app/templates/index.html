@@ -7,7 +7,10 @@
 <h1>Persons</h1>
     <ul>
         {% for person in people%}
-        <li>{{ person }} <a href="{{ url_for('details', id = person.p_id )}}">Details</a></li>
+        <li>{{ person }} 
+            <a href="{{ url_for('details', id = person.p_id )}}">Details</a> 
+            <a href=" {{ url_for('todos.get_todos', id = person.p_id)}} ">To-dos</a>
+        </li>
         {% endfor %}
     </ul>
 

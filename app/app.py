@@ -13,6 +13,10 @@ def create_app():
     #Disable track modifications (optional)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 
+    #Register blueprints
+    from blueprints.todos.todos_routes import todos
+    app.register_blueprint(todos)
+
     #Initialize the app
     db.init_app(app)
 

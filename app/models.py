@@ -9,7 +9,7 @@ class Person(db.Model):
     name = db.Column(db.Text, nullable=False)
     age = db.Column(db.Integer, nullable=False)
     job = db.Column(db.Text)
-    todos = db.relationship("Todos", backref="responsible", lazy=True)
+    todos = db.relationship("Todos", backref="responsible", lazy=True, cascade='all, delete-orphan')
 
     def __repr__(self):
         return f"Person with name {self.name} and age {self.age}"
