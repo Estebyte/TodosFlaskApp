@@ -9,12 +9,12 @@
     <ul>
         {% for i in todos %}
         <li>
-            {{ i.todo }} 
-            <form action="{{ url_for('todos.update_todo') }}" method="POST">
-                <input type="text" name="todo" placeholder="Change to-do">
-                <input type="submit" value="Save"><br><br>
+            {{ i.todo }}
+            <form action="{{ url_for('todos.update_todo', p_id = person.p_id, t_id = i.t_id)}}" method="POST">
+                <input type="text" name="new_todo" required="required" placeholder="Change to-do">
+                <input type="submit" value="Save">
             </form>
-            <a href="{{ url_for('todos.delete_todo')}}">Delete To-do</a>
+            <a href="{{ url_for('todos.delete_todo', p_id = person.p_id, t_id = i.t_id)}}">Delete to-do</a><br><br>
         </li>
         {% endfor %}
     </ul>
@@ -23,8 +23,8 @@
 {% endif %}
 
 <h2>Add a new to-do</h2>
-<form action="{{ url_for('todos.add_todo') }}" method="POST">
-    <input type="text" name="new_todo" placeholder="New To do">
+<form action="{{ url_for('todos.add_todo', p_id = person.p_id) }}" method="POST">
+    <input type="text" name="new_todo" required="required" placeholder="New To do">
     <input type="submit" value="Add">
 </form>
 {% endblock %}
