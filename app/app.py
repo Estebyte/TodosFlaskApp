@@ -17,6 +17,9 @@ def create_app():
     from blueprints.todos.todos_routes import todos
     app.register_blueprint(todos)
 
+    from blueprints.details.details_routes import details
+    app.register_blueprint(details)
+
     #Initialize the app
     db.init_app(app)
 

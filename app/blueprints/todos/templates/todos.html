@@ -3,6 +3,8 @@
 {% block title %}To do List{% endblock %}
 
 {% block content %}
+<a href="{{ url_for('index') }}">Go back</a>
+
 <h1> {{ person.name }}'s To do List </h1>
 
 {% if person.todos %}
