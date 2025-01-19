@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request
-from app import db
+from extensions import db, bcrypt
 from models import User
+
 #Import flask_login functions
 from flask_login import login_user, logout_user, current_user, login_required
 
@@ -14,11 +15,25 @@ def signup():
     #Save user in the db
     elif request.method == "POST":
         #Get values from the form
-        user = request.form.get("username")
+        username = request.form.get("username")
         password = request.form.get("password")
 
         #Hash the password
-        #hashed_password = 
+        hashed_password= bcrypt.generate_password_hash(password).decode("utf-8")
+
+        #Save user in the db
+        try:
+            user = User(username=username, password=hashed_password)
+            db.session.add(user)
+            db.session.commit()
+
+        except Exception as error:
+            context = {
+                "error" : error
+            }
+            return render_template("error.html", **context)
+        
+        return redirect(url_for("login"))
 
 @auth.route("/login", methods=["GET", "POST"])
 def login():
@@ -26,4 +41,5 @@ def login():
 
 @auth.route("/logout")
 def logout():
-    return redirect(url_for("index"))
+    logout_user()
+    return redirect(url_for("login"))

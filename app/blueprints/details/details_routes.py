@@ -1,6 +1,6 @@
 from flask import Blueprint, request, render_template, url_for, redirect
 from models import Person
-from app import db
+from extensions import db
 
 details = Blueprint("details", __name__, url_prefix="/details", template_folder="templates")
 

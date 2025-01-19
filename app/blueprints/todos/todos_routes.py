@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
-from app import db
+from extensions import db
 from models import Person, Todos
 
 todos = Blueprint("todos", __name__, url_prefix="/todos", template_folder="templates")
