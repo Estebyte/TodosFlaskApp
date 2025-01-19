@@ -1,9 +1,10 @@
 from flask import Blueprint, render_template, redirect, url_for, request
 from extensions import db, bcrypt
 from models import User
+from sqlalchemy.exc import IntegrityError
 
 #Import flask_login functions
-from flask_login import login_user, logout_user, current_user, login_required
+from flask_login import login_user, logout_user
 
 auth = Blueprint("auth", __name__, url_prefix="/auth", template_folder="templates")
 
@@ -21,19 +22,21 @@ def signup():
         #Hash the password
         hashed_password= bcrypt.generate_password_hash(password).decode("utf-8")
 
-        #Save user in the db
+        #Save user in the db if the username is available
         try:
             user = User(username=username, password=hashed_password)
             db.session.add(user)
-
-        except Exception as error:
+            db.session.commit()
+        
+        #Show error view if the username is not available
+        except IntegrityError:
             db.session.rollback()
+            error = "Username already in use. Try again with a different username"
             context = {
                 "error" : error
             }
             return render_template("error.html", **context)
         else:
-            db.session.commit()
             return redirect(url_for("auth.login"))
 
 @auth.route("/login", methods=["GET", "POST"])
