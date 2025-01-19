@@ -1,10 +1,12 @@
 from flask import Blueprint, request, render_template, url_for, redirect
 from models import Person
 from extensions import db
+from flask_login import login_required
 
 details = Blueprint("details", __name__, url_prefix="/details", template_folder="templates")
 
 @details.route("/<int:id>", methods = ["GET", "POST"])
+@login_required
 def show_details(id):
     #Get person
     person = Person.query.get_or_404(id)
@@ -48,6 +50,7 @@ def show_details(id):
         return redirect(url_for("details.show_details", id = person.p_id))
     
 @details.route("/<int:id>/delete")
+@login_required
 def delete_person(id):
     person = Person.query.get_or_404(id)
     db.session.delete(person)

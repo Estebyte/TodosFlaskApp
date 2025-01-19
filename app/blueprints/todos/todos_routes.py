@@ -1,10 +1,12 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from extensions import db
 from models import Person, Todos
+from flask_login import login_required
 
 todos = Blueprint("todos", __name__, url_prefix="/todos", template_folder="templates")
 
 @todos.route("/<int:id>")
+@login_required
 def get_todos(id):
     person = Person.query.get_or_404(id)
     todos = person.todos        
@@ -15,6 +17,7 @@ def get_todos(id):
     return render_template("todos.html", **context)
 
 @todos.route("/<int:p_id>/add", methods = ["POST"])
+@login_required
 def add_todo(p_id):
     #Get person and the new todo
     person = Person.query.get_or_404(p_id)
@@ -34,6 +37,7 @@ def add_todo(p_id):
     return redirect(url_for("todos.get_todos", id = p_id))
 
 @todos.route("/<int:p_id>/update/<int:t_id>", methods = ["POST"])
+@login_required
 def update_todo(p_id, t_id):
     #Get old todo and new_todo
     old_todo = Todos.query.get_or_404(t_id)
@@ -47,6 +51,7 @@ def update_todo(p_id, t_id):
     return redirect(url_for("todos.get_todos", id = p_id))
 
 @todos.route("/<int:p_id>/delete/<int:t_id>", methods = ["GET"])
+@login_required
 def delete_todo(p_id, t_id):
     #Get person and todo
     person = Person.query.get_or_404(p_id)
