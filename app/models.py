@@ -27,7 +27,7 @@ class Todos(db.Model):
 class User(db.Model, UserMixin):
     __tablename__ = "users"
 
-    uid = db.Column(db.Integer, primary_key=True)
+    u_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.Text, nullable=False, unique=True)
     password = db.Column(db.Text, nullable=False)
 
@@ -36,4 +36,4 @@ class User(db.Model, UserMixin):
     
     #Create a method to allow to flask_login to access to the user id
     def get_id(self):
-        return self.uid
+        return self.u_id

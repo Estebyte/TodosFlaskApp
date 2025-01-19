@@ -20,7 +20,8 @@
         <input type="text" name="name" required="required" placeholder="name"><br>
         <input type="number" name="age" placeholder="age"><br>
         <input type="text" name="job" placeholder="job"><br>
-        <input type="submit" value="Create">
+        <input type="submit" value="Create"><br>
     </form>
-    
+
+<a href="{{ url_for('auth.logout') }}">Logout</a>
 {% endblock %}

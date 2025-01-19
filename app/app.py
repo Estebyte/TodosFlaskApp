@@ -30,13 +30,18 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app)
     bcrypt.init_app(app)
-    migrate = Migrate(app, db)
+    """
+    Since SQLite3 has no "ALTER TABLE", render_as_batch = True 
+    allows alembic to make changes in a table by creating a copy of it
+    with the changes applied and deleting the old table.
+    """
+    migrate = Migrate(app, db, render_as_batch=True)
 
     #Define to the login manager what it means to log a user
     from models import User
     @login_manager.user_loader
-    def log_user(uid):
-        return User.query.get(uid)
+    def log_user(u_id):
+        return User.query.get(u_id)
     
     #Set the view to redirect if the user is not authenticated
     login_manager.login_view = 'auth.login'

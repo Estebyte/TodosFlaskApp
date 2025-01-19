@@ -25,21 +25,46 @@ def signup():
         try:
             user = User(username=username, password=hashed_password)
             db.session.add(user)
-            db.session.commit()
 
         except Exception as error:
+            db.session.rollback()
             context = {
                 "error" : error
             }
             return render_template("error.html", **context)
-        
-        return redirect(url_for("login"))
+        else:
+            db.session.commit()
+            return redirect(url_for("auth.login"))
 
 @auth.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("login.html")
+    if request.method == "GET":
+        return render_template("login.html")
+        
+    #Save user in the db
+    elif request.method == "POST":
+        #Get values from the form
+        username = request.form.get("username")
+        password = request.form.get("password")
 
+        #Get user
+        user = User.query.filter(User.username == username).first()
+        
+        #Check the password
+        try:
+            if not user or not bcrypt.check_password_hash(user.password, password):
+                raise Exception("Incorrect login credentials")
+
+        except Exception as error:
+            context = {
+                "error" : error
+            }            
+            return render_template("error.html", **context)   
+        else:
+            login_user(user)
+            return redirect(url_for("index"))
+        
 @auth.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for("login"))
+    return redirect(url_for("auth.login"))
