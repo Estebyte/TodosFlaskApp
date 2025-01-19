@@ -1,9 +1,11 @@
 from flask import render_template, request, redirect, url_for
 from models import Person
+from flask_login import login_required
 
-def register_routes(app, db):
+def register_routes(app, db, bcrypt):
 
     @app.route("/", methods=["GET", "POST"])
+    @login_required
     def index():
         if request.method == "GET":
             #Query all in person table
